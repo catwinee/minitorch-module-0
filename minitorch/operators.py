@@ -77,6 +77,7 @@ def is_close(a: float, b: float) -> bool:
     return abs(a - b) < 1e-2
 
 
+# $f(x) =  \frac{1.0}{(1.0 + e^{-x})}$ if x >=0 else $\frac{e^x}{(1.0 + e^{x})}$
 def sigmoid(a: float) -> float:
     """Calculates the sigmoid function.
 
@@ -84,7 +85,10 @@ def sigmoid(a: float) -> float:
         The output of the sigmoid function, a float value between 0 and 1.
 
     """
-    return 1.0 / (1.0 + math.exp(-abs(a)))
+    if a >= 0:
+        return 1.0 / (1.0 + math.exp(-a))
+    else:
+        return math.exp(a) / (1.0 + math.exp(a))
 
 
 def relu(a: float) -> float:
