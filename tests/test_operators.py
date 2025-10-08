@@ -23,7 +23,6 @@ from minitorch.operators import (
     relu,
     relu_back,
     sigmoid,
-    is_close,
 )
 
 from .strategies import assert_close, small_floats
@@ -109,7 +108,7 @@ def test_sigmoid(a: float) -> None:
     * It is  strictly increasing.
     """
     assert 0.0 <= sigmoid(a) and sigmoid(a) <= 1.0
-    assert is_close(1 - sigmoid(a), sigmoid(-a))
+    assert_close(1 - sigmoid(a), sigmoid(-a))
     assert sigmoid(0) == 0.5
     assert sigmoid(a) < sigmoid(a + 1.0) or abs(a) > 10
 
@@ -139,7 +138,7 @@ def test_distribute(x: float, y: float, z: float) -> None:
     r"""Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    assert is_close(mul(z, add(x, y)), add(mul(z, x), mul(z, y)))
+    assert_close(mul(z, add(x, y)), add(mul(z, x), mul(z, y)))
 
 
 @pytest.mark.task0_2
@@ -147,8 +146,8 @@ def test_distribute(x: float, y: float, z: float) -> None:
 def test_other(a: float, b: float, c: float) -> None:
     """Write a test that ensures some other property holds for your functions."""
     # Test associative for mul and add
-    assert is_close(mul(mul(a, b), c), mul(a, mul(b, c)))
-    assert is_close(add(add(a, b), c), add(a, add(b, c)))
+    assert_close(mul(mul(a, b), c), mul(a, mul(b, c)))
+    assert_close(add(add(a, b), c), add(a, add(b, c)))
 
 
 # ## Task 0.3  - Higher-order functions
@@ -178,9 +177,6 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     assert minitorch.operators.addLists(ls1, ls2) == minitorch.operators.addLists(
         ls2, ls1
     )
-
-    # TODO: There is assert_close!
-    # change the assert is_close()
 
 
 @pytest.mark.task0_3
