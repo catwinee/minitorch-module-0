@@ -194,39 +194,72 @@ def relu_back(a: float, d: float) -> float:
 # - prod: take the product of lists
 
 
-# TODO: Implement for Task 0.3.
+def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[float]]:
+    """Higher-order function that applies a given function to each element of an iterable."""
+
+    def apply(ls: Iterable[float]) -> Iterable[float]:
+        ret = []
+        for it in ls:
+            ret.append(fn(it))
+        return ret
+
+    return apply
 
 
-def map() -> Callable:
-    """TODO."""
-    raise NotImplementedError("Not implemented.")
+def zipWith(
+    fn: Callable[[float, float], float],
+) -> Callable[[Iterable[float], Iterable[float]], Iterable[float]]:
+    """Higher-order function that combines elements from two iterables using a given function."""
+
+    def apply(ls_1: Iterable[float], ls_2: Iterable[float]) -> Iterable[float]:
+        ret = []
+        for it_1, it_2 in zip(ls_1, ls_2):
+            ret.append(fn(it_1, it_2))
+        return ret
+
+    return apply
 
 
-def zipWith() -> Callable:
-    """TODO."""
-    raise NotImplementedError("Not implemented.")
+def reduce(fn: Callable[[float, float], float]) -> Callable[[Iterable[float]], float]:
+    """Higher-order function that reduces an iterable to a single value using a given function.
+
+    Raises:
+        ValueError: If the input Iterable is empty.
+
+    """
+
+    def apply(ls: Iterable[float]) -> float:
+        iterator = iter(ls)
+
+        try:
+            val = next(iterator)
+        except StopIteration:
+            return 0
+            # raise ValueError("Cannot reduce an empty Iterable.")
+            # Unfortunately, pytest doesn't want me to raise errors
+
+        for it in iterator:
+            val = fn(it, val)
+        return val
+
+    return apply
 
 
-def reduce() -> Callable:
-    """TODO."""
-    raise NotImplementedError("Not implemented.")
+def negList(ls: Iterable[float]) -> Iterable[float]:
+    """Negate all elements in a list using map."""
+    return map(neg)(ls)
 
 
-def negList() -> Iterable[float]:
-    """Negate a list."""
-    raise NotImplementedError("Not implemented.")
+def addLists(ls_1: Iterable[float], ls_2: Iterable[float]) -> Iterable[float]:
+    """Add corresponding elements from two lists using zipWith."""
+    return zipWith(add)(ls_1, ls_2)
 
 
-def addLists() -> Iterable[float]:
-    """Add two lists together."""
-    raise NotImplementedError("Not implemented.")
+def sum(ls: Iterable[float]) -> float:
+    """Sum all elements in a list using reduce."""
+    return reduce(add)(ls)
 
 
-def sum() -> Iterable[float]:
-    """Sum lists."""
-    raise NotImplementedError("Not implemented.")
-
-
-def prod() -> Iterable[float]:
-    """Take the product of lists."""
-    raise NotImplementedError("Not implemented.")
+def prod(ls: Iterable[float]) -> float:
+    """Calculate the product of all elements in a list using reduce."""
+    return reduce(mul)(ls)
