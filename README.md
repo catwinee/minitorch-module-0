@@ -6,3 +6,20 @@
 * Docs: https://minitorch.github.io/
 
 * Overview: https://minitorch.github.io/module0/module0/
+
+This project is my implementation of the first module of MiniTorch.
+
+## Task 0.5: Visualization
+
+I have successfully implemented the visualization component that allows for interactive adjustment of model parameters. Here is a screenshot of the interface:
+
+![Minitorch Model Parameters Visualization](./newplot.png)
+
+My parameters:
+``` json
+{
+    "linear_weight_0_0": -10.0,
+    "linear_weight_1_0": 0.76,
+    "linear_bias_0": 4.50
+}
+```
